@@ -6,7 +6,7 @@ This project has the goal to get multiple statements from financial sources and 
 
 Clone this repo.
 
-This is a python project, make sure you have it installed (recommend a virtualenv activated also) and then to install dependencies:
+This is a `python 3.7` project, make sure you have it installed (recommend a virtualenv activated also) and then to install dependencies:
 
 `make setup`
 
