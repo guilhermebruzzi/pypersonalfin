@@ -16,6 +16,12 @@ This is a python project, make sure you have it installed (recommend a virtualen
 
 It will seach the `data` folder inside this project for csv files (.txt or .csv valid files) containing names of known financial sources (listed below) and will process their content and export to a new .csv file on the `output` folder that you can then import on a spreadsheet.
 
+## Run with locale
+
+`make run LOCALE=pt_br`
+
+This script currently support portuguese from Brazil or US english locale (default) to export the final output.
+
 ## Import the generated file to a Spreadsheet
 
 You can manually import the generated .csv file on any Spreadsheet you would like to use the informations as you like, below you have examples on each vendor and even some automatically ways using this same project.

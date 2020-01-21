@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-from .parsers import parsers
-from .scrapper import scrapper
-from .persistors import persist_on_csv
+import sys
+
+from persistors import persist_on_csv
+from parsers import parsers
+from scrapper import scrapper
 
 
-def main():
-    categories = [
-        category for parser in parsers for category in scrapper(parser)
-    ]
-    persist_on_csv(categories)
+def main(locale):
+    categories_csv, file_name = scrapper(parsers, locale)
+
+    persist_on_csv(categories_csv, file_name)
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1])

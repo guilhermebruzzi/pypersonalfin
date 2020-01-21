@@ -1,4 +1,4 @@
-from nubank import nubank
-from itau import itau
+from .nubank import NubankParser
+from .itau import ItauParser
 
-parsers = [nubank, itau]
+parsers = [NubankParser, ItauParser]

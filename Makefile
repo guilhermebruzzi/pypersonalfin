@@ -8,4 +8,4 @@ setup:
 	pip install -r requirements.txt
 
 run:
-	python pypersonalfin/run.py
+	python pypersonalfin/run.py $(LOCALE)
