@@ -70,10 +70,27 @@ def scrapper(parserclasses, locale):
 
     for parser_name, categories in categories_per_parser.items():
         categories.sort(key=lambda c: c.amount, reverse=True)
-        categories_csv = [category.to_csv() for category in categories]
-        csv += "\n{}:\n".format(parser_name)
-        csv += '\n'.join(categories_csv)
 
-    csv += "\ntotal,{}\n".format(amount_to_str(amount, locale))
+        csv += "\n{}:\n".format(parser_name)
+
+        parser_amount = 0
+
+        for category in categories:
+            csv += "{}\n".format(category.to_csv())
+            parser_amount += category.amount
+
+        if is_brazil(locale):
+            csv += "total das categorias,{}\n".format(
+                amount_to_str(parser_amount, locale)
+            )
+        else:
+            csv += "total on categories,{}\n".format(
+                amount_to_str(parser_amount, locale)
+            )
+
+    if is_brazil(locale):
+        csv += "\nsaldo final,{}\n".format(amount_to_str(amount, locale))
+    else:
+        csv += "\ntotal balance,{}\n".format(amount_to_str(amount, locale))
 
     return (csv, file_name)
