@@ -24,10 +24,13 @@ class BaseParser:
             return 'saida' if is_brazil(self.locale) else 'exit'
         return 'entrada' if is_brazil(self.locale) else 'income'
 
-    def _get_amount(self, amount):
+    def get_amount(self, amount):
         try:
             amount = amount.strip()
-            amount = int(amount) * 100
+            if is_brazil(self.locale):
+                amount = amount.replace(',', '.')
+            amount = float(amount) * 100
+            amount = int(amount)
         except ValueError:
             pass
 
@@ -43,7 +46,7 @@ class BaseParser:
         else:
             date, category_name, title, amount = data_values
 
-        amount = self._get_amount(amount)
+        amount = self.get_amount(amount)
 
         if not isinstance(amount, int):
             return None

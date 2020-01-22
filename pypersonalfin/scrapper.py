@@ -20,9 +20,10 @@ def _scrapper_parser(parsercls, locale):
     if not file_contents:
         file_contents = _get_file_contents()
 
-    file_contents_of_parser = [
-        file_content for name, file_content in file_contents.items() if parser.match(name)
-    ]
+    file_contents_of_parser = []
+    for name, file_content in file_contents.items():
+        if parser.match(name):
+            file_contents_of_parser.append(file_content)
 
     return parser.get_categories(file_contents_of_parser)
 
@@ -50,7 +51,7 @@ def scrapper(parserclasses, locale):
     amount = 0
     lower_bound_date = None
     upper_bound_date = None
-    for parsercls in parserclasses:
+    for index, parsercls in enumerate(parserclasses):
         parser_categories = _scrapper_parser(parsercls, locale)
         for category in parser_categories:
             amount += category.amount

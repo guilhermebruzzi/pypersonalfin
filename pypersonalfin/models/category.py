@@ -6,12 +6,12 @@ from utils.locale import is_brazil
 
 class Category:
     def __init__(self, name, locale):
+        self.name = name.lower().strip()
+        self.locale = locale
         self.lower_bound_date = None
         self.upper_bound_date = None
-        self.name = name.lower().strip()
         self.amount = 0
         self.statements = []
-        self.locale = locale
         self.has_observation = False
 
     def append_statement(self, statement):

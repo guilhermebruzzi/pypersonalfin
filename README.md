@@ -57,5 +57,5 @@ Get your bank statements from them by:
 
 * Logging into their website: https://www.itau.com.br/
 * Will have a button see bank statements on the main page after login
-* Select the time period, click on the 3 dots option (called others when passing the mouse) next to the pdf print and select export to text file
+* Select the time period, click on the 3 dots option (called others when passing the mouse) next to the pdf icon and select export to text file
 * Make sure you save this file on the `data` folder inside this project with a name starting with `itau` and with the `csv` or `txt` extension
