@@ -48,9 +48,15 @@ class Category:
         return "{}\n".format(title)
 
     def _get_csv_header(self):
-        header = "date,title,amount"
+        header = "date;title;amount"
+        if is_brazil(self.locale):
+            header = "data;titulo;valor"
+
         if self.has_observation:
-            header += ",observation"
+            if is_brazil(self.locale):
+                header += ";observacao"
+            else:
+                header += ";observation"
 
         return "{}\n".format(header)
 
@@ -65,7 +71,7 @@ class Category:
 
         csv += "\n".join(statements_csvs)
 
-        csv += "\ntotal,{}\n".format(amount_to_str(self.amount, self.locale))
+        csv += "\ntotal;{}\n".format(amount_to_str(self.amount, self.locale))
 
         return csv
 
