@@ -1,18 +1,30 @@
 from collections import defaultdict
 from slugify import slugify
+from itertools import chain
 
 from utils.date import date_to_str
 from utils.locale import is_brazil
 from utils.amount import amount_to_str
+from utils.file import get_files_of_data_folder, get_file_content
 
 file_contents = None
 
 
 def _get_file_contents():
-    return {
-        "nubank-2020-01": "date,category,title,amount\n2019-11-28,,Rewards - Assinatura,190",
-        "itau-2020-01": "22/11/2019;RSHOP-SURREAL RES-22/11;-95,70\n22/11/2019;TBI 0413.67950-7     C/C;-300,00",
-    }
+    file_contents = {}
+
+    data_files = chain(
+        get_files_of_data_folder('*.txt'),
+        get_files_of_data_folder('*.csv')
+    )
+
+    for file_path in data_files:
+        file_name = file_path.name
+        file_abs_path = file_path.absolute()
+
+        file_contents[file_name] = get_file_content(file_abs_path)
+
+    return file_contents
 
 
 def _scrapper_parser(parser, locale):

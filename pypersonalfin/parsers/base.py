@@ -33,6 +33,8 @@ class BaseParser:
             amount = int(amount)
         except ValueError:
             pass
+        except AttributeError:
+            pass
 
         return amount
 
@@ -41,10 +43,12 @@ class BaseParser:
 
         category_name = None
 
-        if (len(data_values) == 3):
+        if len(data_values) == 3:
             date, title, amount = data_values
-        else:
+        elif len(data_values) == 4:
             date, category_name, title, amount = data_values
+        else:
+            amount = None
 
         amount = self.get_amount(amount)
 
