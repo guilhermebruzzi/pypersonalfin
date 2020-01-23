@@ -1,4 +1,5 @@
 from collections import defaultdict
+from slugify import slugify
 
 from utils.date import date_to_str
 from utils.locale import is_brazil
@@ -28,7 +29,7 @@ def _scrapper_parser(parser, locale):
     return parser.get_categories(file_contents_of_parser)
 
 
-def _get_file_name(lower_bound_date, upper_bound_date, locale):
+def _get_file_description(lower_bound_date, upper_bound_date, locale):
     name = "Data from {} to {}".format(
         date_to_str(lower_bound_date, locale),
         date_to_str(upper_bound_date, locale),
@@ -41,6 +42,10 @@ def _get_file_name(lower_bound_date, upper_bound_date, locale):
         )
 
     return name
+
+
+def _get_file_name_from_description(file_description):
+    return slugify(file_description)
 
 
 def scrapper(parserclasses, locale):
@@ -64,9 +69,12 @@ def scrapper(parserclasses, locale):
 
             categories_per_parser[parser.name].append(category)
 
-    file_name = _get_file_name(lower_bound_date, upper_bound_date, locale)
+    file_description = _get_file_description(
+        lower_bound_date, upper_bound_date, locale
+    )
+    file_name = _get_file_name_from_description(file_description)
 
-    csv = "{}\n".format(file_name)
+    csv = "{}\n".format(file_description)
 
     for parser_name, categories in categories_per_parser.items():
         categories.sort(key=lambda c: c.amount, reverse=True)

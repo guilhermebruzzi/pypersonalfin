@@ -1,5 +1,5 @@
 def _persist(categories_csv, file_name):
-    print("\nPersist on {} the following categories:\n\n".format(file_name))
+    print("\nPersist on {}:\n\n".format(file_name))
     print(categories_csv)
     return
 
