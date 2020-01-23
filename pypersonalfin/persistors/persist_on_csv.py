@@ -1,7 +1,8 @@
+from utils.file import save_file_on_output_folder
+
+
 def _persist(categories_csv, file_name):
-    print("\nPersist on {}:\n\n".format(file_name))
-    print(categories_csv)
-    return
+    save_file_on_output_folder(file_name, categories_csv)
 
 
 def persist_on_csv(categories_csv, file_name):
