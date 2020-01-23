@@ -1,7 +1,7 @@
 from .locale import is_brazil
 
 
-def amount_to_str(amount, locale):
+def amount_to_str(amount, locale=None):
     float_amount = amount / 100.0
     float_amount_str = "{:.2f}".format(float_amount)
 
