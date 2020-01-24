@@ -2,20 +2,27 @@ import os
 import pathlib
 
 root_folder = pathlib.Path(__file__).parent.parent.parent
+src_folder = root_folder / 'pypersonalfin'
 data_folder = root_folder / 'data'
 output_folder = root_folder / 'output'
 
 
-def get_data_folder_abs_path(file_name):
+def _get_abs_path(file_name, folder):
     if file_name:
-        return (data_folder / file_name).absolute()
-    return data_folder.absolute()
+        return (folder / file_name).absolute()
+    return folder.absolute()
+
+
+def get_data_folder_abs_path(file_name):
+    return _get_abs_path(file_name=file_name, folder=data_folder)
 
 
 def get_output_folder_abs_path(file_name):
-    if file_name:
-        return (output_folder / file_name).absolute()
-    return output_folder.absolute()
+    return _get_abs_path(file_name=file_name, folder=output_folder)
+
+
+def get_src_folder_abs_path(file_name):
+    return _get_abs_path(file_name=file_name, folder=src_folder)
 
 
 def get_files_of_data_folder(glob):

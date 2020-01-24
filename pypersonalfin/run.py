@@ -28,9 +28,14 @@ def main(locale):
 
     _print_success(file_name, locale)
 
+    if ".csv" not in file_name:
+        file_name = "{}.csv".format(file_name)
+
+    return file_name
+
 
 if __name__ == "__main__":
-    locale = 'en-us'
+    locale = 'en_us'
     if len(sys.argv) > 1:
         locale = sys.argv[1]
 

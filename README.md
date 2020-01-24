@@ -34,6 +34,22 @@ Steps to import a csv file on a already created Google Spreadsheet:
  * Go to upload tab and select the exported csv that is on the `output` folder on this project
  * You can choose `insert new sheet(s)` option so you can use the data as you want without replacing any current value on your spreadsheet
 
+#### Automatically
+
+Create a credential file that can access your google spreadsheet by following the steps on: https://gspread.readthedocs.io/en/latest/oauth2.html
+
+Then move the final json to source folder of this project with the final path: `pypersonalfin/service_credentials.json`
+
+Then execute:
+
+`make upload_to_google NAME=my-spreadsheet-name RUN=True LOCALE=pt_br`
+
+To run the script and upload it to your Google spreadsheet.
+
+Alternatively you can pass a previous output name:
+
+`make upload_to_google NAME=my-spreadsheet-name FILE_NAME=data-from-x-to-y.csv`
+
 ## Financial sources
 
 List of currently supported financial sources to group data.
