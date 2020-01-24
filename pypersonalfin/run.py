@@ -30,4 +30,8 @@ def main(locale):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    locale = 'en-us'
+    if len(sys.argv) > 1:
+        locale = sys.argv[1]
+
+    main(locale)

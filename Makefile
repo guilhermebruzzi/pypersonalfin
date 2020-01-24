@@ -9,3 +9,6 @@ setup:
 
 run:
 	python pypersonalfin/run.py $(LOCALE)
+
+upload_to_google:
+	python pypersonalfin/upload_to_google.py $(NAME)

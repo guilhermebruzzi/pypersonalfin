@@ -9,5 +9,5 @@ setup(
     author_email='guibruzzi@gmail.com',
     license='MIT',
     packages=['pypersonalfin'],
-    install_requires=['python-slugify>=4,<5'],
+    install_requires=['python-slugify>=4,<5', 'gspread>=3,<4'],
 )
