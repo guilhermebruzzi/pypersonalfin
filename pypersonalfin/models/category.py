@@ -1,4 +1,5 @@
 from collections import defaultdict
+from slugify import slugify
 
 from utils.amount import amount_to_str
 from utils.locale import is_brazil
@@ -86,19 +87,19 @@ class Category:
         if not statements or len(statements) == 0:
             return []
 
-        memoize_statements_by_title = {}
+        memoize_statements_by_title_slug = {}
         memoize_statements_by_category_name = defaultdict(list)
         for statement in statements:
-            statement_title = statement.title.lower().strip()
+            statement_title_slug = slugify(statement.title.lower().strip())
             statement_category_name = statement.category_name.lower().strip()
 
-            if statement_title in memoize_statements_by_title:
-                saved_statement = memoize_statements_by_title[statement_title]
+            if statement_title_slug in memoize_statements_by_title_slug:
+                saved_statement = memoize_statements_by_title_slug[statement_title_slug]
                 saved_statement.amount += statement.amount
                 if statement.date > saved_statement.date:
                     saved_statement.date = statement.date
             else:
-                memoize_statements_by_title[statement_title] = statement
+                memoize_statements_by_title_slug[statement_title_slug] = statement
                 memoize_statements_by_category_name[statement_category_name].append(
                     statement
                 )
