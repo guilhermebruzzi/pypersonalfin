@@ -6,9 +6,11 @@ from utils.locale import is_brazil
 
 
 class Category:
-    def __init__(self, name, locale):
+    def __init__(self, name, locale, date_begin=None, date_end=None):
         self.name = name.lower().strip()
         self.locale = locale
+        self.date_begin = date_begin
+        self.date_end = date_end
         self.lower_bound_date = None
         self.upper_bound_date = None
         self.amount = 0
@@ -17,6 +19,9 @@ class Category:
 
     def append_statement(self, statement):
         if statement.category_name != self.name:
+            return
+
+        if self.date_begin and self.date_end and (statement.date < self.date_begin or statement.date > self.date_end):
             return
 
         self.amount += statement.amount
@@ -83,7 +88,7 @@ class Category:
         return self.name == other.name
 
     @classmethod
-    def get_categories_from_statements(cls, statements, locale):
+    def get_categories_from_statements(cls, statements, locale, date_begin, date_end):
         if not statements or len(statements) == 0:
             return []
 
@@ -106,7 +111,7 @@ class Category:
 
         categories = []
         for category_name, statements in memoize_statements_by_category_name.items():
-            category = cls(category_name, locale)
+            category = cls(category_name, locale, date_begin, date_end)
             category.append_statements(statements, sort=True)
             categories.append(category)
 

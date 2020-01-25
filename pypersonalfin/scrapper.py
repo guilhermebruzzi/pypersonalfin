@@ -27,7 +27,7 @@ def _get_file_contents():
     return file_contents
 
 
-def _scrapper_parser(parser, locale):
+def _scrapper_parser(parser, locale, date_begin, date_end):
     global file_contents
 
     if not file_contents:
@@ -38,7 +38,7 @@ def _scrapper_parser(parser, locale):
         if parser.match(name):
             file_contents_of_parser.append(file_content)
 
-    return parser.get_categories(file_contents_of_parser)
+    return parser.get_categories(file_contents_of_parser, date_begin, date_end)
 
 
 def _get_file_description(lower_bound_date, upper_bound_date, locale):
@@ -72,7 +72,8 @@ def scrapper(parserclasses, locale, date_begin, date_end):
     upper_bound_date = None
     for parsercls in parserclasses:
         parser = parsercls(locale)
-        parser_categories = _scrapper_parser(parser, locale)
+        parser_categories = _scrapper_parser(
+            parser, locale, date_begin, date_end)
         for category in parser_categories:
             amount += category.amount
             if not lower_bound_date or lower_bound_date > category.lower_bound_date:
@@ -102,11 +103,13 @@ def scrapper(parserclasses, locale, date_begin, date_end):
             parser_amount += category.amount
 
         if is_brazil(locale):
-            csv += "total das categorias;{}\n".format(
+            csv += "total {};{}\n".format(
+                parser_name,
                 amount_to_str(parser_amount, locale)
             )
         else:
-            csv += "total on categories;{}\n".format(
+            csv += "total {};{}\n".format(
+                parser_name,
                 amount_to_str(parser_amount, locale)
             )
 

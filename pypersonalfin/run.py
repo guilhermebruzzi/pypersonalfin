@@ -22,8 +22,8 @@ def _print_success(file_name, locale):
         ))
 
 
-def main(locale, begin, end):
-    date_begin, date_end = get_date_range(begin, end)
+def main(locale, begin=None, end=None):
+    date_begin, date_end = get_date_range(begin, end, locale)
 
     categories_csv, file_name = scrapper(parsers, locale, date_begin, date_end)
 
@@ -42,4 +42,12 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         locale = sys.argv[1]
 
-    main(locale, 'begin', 'end')
+    begin = None
+    if len(sys.argv) > 2:
+        begin = sys.argv[2]
+
+    end = None
+    if len(sys.argv) > 3:
+        end = sys.argv[3]
+
+    main(locale, begin, end)

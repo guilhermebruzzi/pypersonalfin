@@ -37,8 +37,17 @@ def main(args):
         locale = 'en_us'
         if len(args) > 2:
             locale = args[2]
+
+        begin = None
+        if len(args) > 3:
+            begin = args[3]
+
+        end = None
+        if len(args) > 4:
+            end = args[4]
+
         print('Running pypersonalfin script...')
-        file_name = run_script(locale, 'current_month', '')
+        file_name = run_script(locale, begin, end)
 
     with open(get_output_folder_abs_path(file_name)) as reader:
         file_name = os.path.splitext(file_name)[0]

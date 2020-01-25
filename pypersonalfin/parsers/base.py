@@ -63,7 +63,7 @@ class BaseParser:
     def match(self, file_name):
         return prefix_file_name(file_name).lower() == self.name.lower()
 
-    def get_categories(self, file_contents):
+    def get_categories(self, file_contents, date_begin, date_end):
         statements = []
 
         for file_content in file_contents:
@@ -72,4 +72,4 @@ class BaseParser:
                 if statement:
                     statements.append(statement)
 
-        return Category.get_categories_from_statements(statements, self.locale)
+        return Category.get_categories_from_statements(statements, self.locale, date_begin, date_end)
