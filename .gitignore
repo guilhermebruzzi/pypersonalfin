@@ -114,5 +114,11 @@ data/*.txt
 # Output files
 output/*.csv
 
+# Scripts files
+scripts/*.js
+scripts/*.ts
+scripts/*.py
+scripts/*.sh
+
 # credentials
 service_credentials.json
