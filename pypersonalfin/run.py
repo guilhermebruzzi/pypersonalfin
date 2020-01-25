@@ -5,6 +5,7 @@ from persistors import persist_on_csv
 from parsers import parsers
 from scrapper import scrapper
 from utils.locale import is_brazil
+from utils.date import get_date_range
 from utils.file import get_output_folder_abs_path
 
 
@@ -21,8 +22,10 @@ def _print_success(file_name, locale):
         ))
 
 
-def main(locale):
-    categories_csv, file_name = scrapper(parsers, locale)
+def main(locale, begin, end):
+    date_begin, date_end = get_date_range(begin, end)
+
+    categories_csv, file_name = scrapper(parsers, locale, date_begin, date_end)
 
     persist_on_csv(categories_csv, file_name)
 
@@ -39,4 +42,4 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         locale = sys.argv[1]
 
-    main(locale)
+    main(locale, 'begin', 'end')

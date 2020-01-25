@@ -1,6 +1,13 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from .locale import is_brazil
+
+
+def get_date_range(begin, end):
+    print(begin, end)
+    date_begin = date(2020, 1, 1)
+    date_end = date(2020, 1, 24)
+    return date_begin, date_end
 
 
 def convert_to_date(date_str, locale):

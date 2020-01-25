@@ -60,9 +60,11 @@ def _get_file_name_from_description(file_description):
     return slugify(file_description)
 
 
-def scrapper(parserclasses, locale):
+def scrapper(parserclasses, locale, date_begin, date_end):
     if not parserclasses or len(parserclasses) == 0:
         return
+
+    print(date_begin, date_end)
 
     categories_per_parser = defaultdict(list)
     amount = 0
