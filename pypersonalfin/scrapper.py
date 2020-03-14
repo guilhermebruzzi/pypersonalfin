@@ -64,8 +64,6 @@ def scrapper(parserclasses, locale, date_begin, date_end):
     if not parserclasses or len(parserclasses) == 0:
         return
 
-    print(date_begin, date_end)
-
     categories_per_parser = defaultdict(list)
     amount = 0
     lower_bound_date = None
@@ -73,7 +71,9 @@ def scrapper(parserclasses, locale, date_begin, date_end):
     for parsercls in parserclasses:
         parser = parsercls(locale)
         parser_categories = _scrapper_parser(
-            parser, locale, date_begin, date_end)
+            parser, locale, date_begin, date_end
+        )
+
         for category in parser_categories:
             amount += category.amount
             if not lower_bound_date or lower_bound_date > category.lower_bound_date:

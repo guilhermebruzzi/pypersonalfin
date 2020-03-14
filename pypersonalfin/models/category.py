@@ -66,6 +66,9 @@ class Category:
 
         return "{}\n".format(header)
 
+    def is_empty(self):
+        return len(self.statements) == 0
+
     def to_csv(self):
         statements_csvs = [statement.to_csv() for statement in self.statements]
 
@@ -93,10 +96,11 @@ class Category:
             return []
 
         memoize_statements_by_title_slug = {}
-        memoize_statements_by_category_name = defaultdict(list)
+        memoize_statements_by_category_name_slug = defaultdict(list)
         for statement in statements:
             statement_title_slug = slugify(statement.title.lower().strip())
             statement_category_name = statement.category_name.lower().strip()
+            statement_category_name_slug = slugify(statement_category_name)
 
             if statement_title_slug in memoize_statements_by_title_slug:
                 saved_statement = memoize_statements_by_title_slug[statement_title_slug]
@@ -105,14 +109,22 @@ class Category:
                     saved_statement.date = statement.date
             else:
                 memoize_statements_by_title_slug[statement_title_slug] = statement
-                memoize_statements_by_category_name[statement_category_name].append(
+                memoize_statements_by_category_name_slug[statement_category_name_slug].append(
                     statement
                 )
 
         categories = []
-        for category_name, statements in memoize_statements_by_category_name.items():
+        for statements in memoize_statements_by_category_name_slug.values():
+            if len(statements) == 0:
+                continue
+
+            category_name = statements[0].category_name.lower().strip()
             category = cls(category_name, locale, date_begin, date_end)
             category.append_statements(statements, sort=True)
+
+            if category.is_empty():
+                continue
+
             categories.append(category)
 
         return categories

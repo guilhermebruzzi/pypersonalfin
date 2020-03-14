@@ -25,6 +25,8 @@ def _print_success(file_name, locale):
 def main(locale, begin=None, end=None):
     date_begin, date_end = get_date_range(begin, end, locale)
 
+    print('date_begin, date_end', date_begin, date_end)
+
     categories_csv, file_name = scrapper(parsers, locale, date_begin, date_end)
 
     persist_on_csv(categories_csv, file_name)
