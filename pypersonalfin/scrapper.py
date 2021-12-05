@@ -1,3 +1,4 @@
+import datetime
 from collections import defaultdict
 from slugify import slugify
 from itertools import chain
@@ -92,7 +93,8 @@ def scrapper(parserclasses, locale, date_begin, date_end):
     csv = "{}\n".format(file_description)
 
     for parser_name, categories in categories_per_parser.items():
-        categories.sort(key=lambda c: c.date_begin, reverse=True)
+        categories.sort(key=lambda c: datetime.date(2999, 1, 1) if c.amount >
+                        0 else c.date_begin, reverse=True)
 
         csv += "\n{}:\n".format(parser_name)
 

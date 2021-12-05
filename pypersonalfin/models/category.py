@@ -1,7 +1,6 @@
 from collections import defaultdict
 from slugify import slugify
 
-from utils.amount import amount_to_str
 from utils.locale import is_brazil
 
 
