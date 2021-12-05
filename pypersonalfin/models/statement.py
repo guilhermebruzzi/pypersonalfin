@@ -14,7 +14,8 @@ class Statement:
     def to_csv(self):
         amount = amount_to_str(self.amount, self.locale)
         date = date_to_str(self.date, self.locale)
-        csv = "{};{};{}".format(date, self.title, amount)
+        csv = "{};{};{};{}".format(
+            date, self.title, self.category_name, amount)
 
         if self.observation:
             csv += ";{}".format(self.observation)

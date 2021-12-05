@@ -53,10 +53,10 @@ class Category:
             title = "*Categoria {}*".format(self.name)
         return "{}\n".format(title)
 
-    def _get_csv_header(self):
-        header = "date;title;amount"
+    def csv_header(self):
+        header = "date;title;category;amount"
         if is_brazil(self.locale):
-            header = "data;titulo;valor"
+            header = "data;titulo;categoria;valor"
 
         if self.has_observation:
             if is_brazil(self.locale):
@@ -70,19 +70,10 @@ class Category:
         return len(self.statements) == 0
 
     def to_csv(self):
+        self.statements.sort(key=lambda c: c.date, reverse=True)
         statements_csvs = [statement.to_csv() for statement in self.statements]
 
-        csv = ""
-
-        csv += self._get_csv_title()
-
-        csv += self._get_csv_header()
-
-        csv += "\n".join(statements_csvs)
-
-        csv += "\ntotal;{}\n".format(amount_to_str(self.amount, self.locale))
-
-        return csv
+        return "\n".join(statements_csvs)
 
     def __str__(self):
         return self.to_csv()
@@ -103,12 +94,14 @@ class Category:
             statement_category_name_slug = slugify(statement_category_name)
 
             if statement_title_slug in memoize_statements_by_title_slug:
-                saved_statement = memoize_statements_by_title_slug[statement_title_slug]
-                saved_statement.amount += statement.amount
-                if statement.date > saved_statement.date:
-                    saved_statement.date = statement.date
+                saved_statement_index = memoize_statements_by_title_slug[statement_title_slug][1]
+                memoize_statements_by_category_name_slug[statement_category_name_slug].insert(
+                    saved_statement_index,
+                    statement
+                )
             else:
-                memoize_statements_by_title_slug[statement_title_slug] = statement
+                memoize_statements_by_title_slug[statement_title_slug] = [statement, len(
+                    memoize_statements_by_category_name_slug[statement_category_name_slug])]
                 memoize_statements_by_category_name_slug[statement_category_name_slug].append(
                     statement
                 )
