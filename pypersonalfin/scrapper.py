@@ -3,6 +3,7 @@ from collections import defaultdict
 from slugify import slugify
 from itertools import chain
 
+from models.category import Category
 from utils.date import date_to_str
 from utils.locale import is_brazil
 from utils.amount import amount_to_str
@@ -92,13 +93,19 @@ def scrapper(parserclasses, locale, date_begin, date_end):
 
     csv = "{}\n".format(file_description)
 
+    income_category_name = Category.get_default_category_name(1, locale)
+    exit_category_name = Category.get_default_category_name(-1, locale)
+
     for parser_name, categories in categories_per_parser.items():
-        categories.sort(key=lambda c: datetime.date(2999, 1, 1) if c.amount >
-                        0 else c.date_begin, reverse=True)
+        categories.sort(key=lambda c: datetime.date(2000, 1, 1) if c.amount >
+                        0 else c.date_begin)
 
         csv += "\n{}:\n".format(parser_name)
 
+        parser_income_amount = 0
+        parser_exit_amount = 0
         parser_amount = 0
+        csv_total = ''
 
         for category in categories:
             if parser_amount == 0:
@@ -108,7 +115,29 @@ def scrapper(parserclasses, locale, date_begin, date_end):
 
             parser_amount += category.amount
 
-        csv += "total {};{}\n".format(
+            if category.amount < 0:
+                parser_exit_amount += category.amount
+            else:
+                parser_income_amount += category.amount
+
+            if category.name != income_category_name and category.name != exit_category_name:
+                csv_total += "total {};{}\n".format(
+                    category.name,
+                    amount_to_str(category.amount, locale)
+                )
+
+        csv_total += "total {};{}\n".format(
+            income_category_name,
+            amount_to_str(parser_income_amount, locale)
+        )
+
+        csv_total += "total {};{}\n".format(
+            exit_category_name,
+            amount_to_str(parser_exit_amount, locale)
+        )
+
+        csv += "\n{}total {};{}\n".format(
+            csv_total,
             parser_name,
             amount_to_str(parser_amount, locale)
         )

@@ -18,11 +18,7 @@ class BaseParser:
         self.statement_separator = statement_separator
 
     def _get_default_category_name(self, amount=0):
-        if amount == 0:
-            return 'vazia' if is_brazil(self.locale) else 'blank'
-        if amount < 0:
-            return 'saida' if is_brazil(self.locale) else 'exit'
-        return 'entrada' if is_brazil(self.locale) else 'income'
+        return Category.get_default_category_name(amount, self.locale)
 
     def get_amount(self, amount):
         try:

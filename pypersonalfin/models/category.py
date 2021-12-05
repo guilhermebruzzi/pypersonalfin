@@ -81,6 +81,14 @@ class Category:
         return self.name == other.name
 
     @classmethod
+    def get_default_category_name(cls, amount, locale):
+        if amount == 0:
+            return 'vazia' if is_brazil(locale) else 'blank'
+        if amount < 0:
+            return 'saida' if is_brazil(locale) else 'exit'
+        return 'entrada' if is_brazil(locale) else 'income'
+
+    @classmethod
     def get_categories_from_statements(cls, statements, locale, date_begin, date_end):
         if not statements or len(statements) == 0:
             return []
