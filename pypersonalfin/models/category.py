@@ -69,7 +69,7 @@ class Category:
         return len(self.statements) == 0
 
     def to_csv(self):
-        self.statements.sort(key=lambda c: c.date, reverse=True)
+        self.statements.sort(key=lambda c: c.date)
         statements_csvs = [statement.to_csv() for statement in self.statements]
 
         return "\n".join(statements_csvs)
