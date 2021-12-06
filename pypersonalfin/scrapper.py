@@ -105,7 +105,7 @@ def scrapper(parserclasses, locale, date_begin, date_end):
         parser_income_amount = 0
         parser_exit_amount = 0
         parser_amount = 0
-        csv_total = ''
+        csv_total_list = []
 
         for category in categories:
             if parser_amount == 0:
@@ -121,10 +121,16 @@ def scrapper(parserclasses, locale, date_begin, date_end):
                 parser_income_amount += category.amount
 
             if category.name != income_category_name and category.name != exit_category_name:
-                csv_total += "total {};{}\n".format(
+                csv_category_total = "total {};{}\n".format(
                     category.name,
                     amount_to_str(category.amount, locale)
                 )
+                csv_total_list.append([csv_category_total, category.amount])
+
+        csv_total_list.sort(key=lambda c: c[1], reverse=True)
+
+        csv_total = "".join([csv_category_total_pair[0]
+                             for csv_category_total_pair in csv_total_list])
 
         csv_total += "total {};{}\n".format(
             income_category_name,
