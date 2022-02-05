@@ -11,4 +11,4 @@ run:
 	python pypersonalfin/run.py $(LOCALE) $(BEGIN) $(END)
 
 upload_to_google:
-	python pypersonalfin/upload_to_google.py "$(NAME)" $(RUN)$(FILE_NAME) $(LOCALE) $(BEGIN) $(END)
+	python pypersonalfin/upload_to_google.py "$(NAME)" $(RUN)$(FILE_NAME) $(LOCALE) "$(BEGIN)" "$(END)"

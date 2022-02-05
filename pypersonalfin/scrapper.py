@@ -29,7 +29,7 @@ def _get_file_contents():
     return file_contents
 
 
-def _scrapper_parser(parser, locale, date_begin, date_end):
+def _scrapper_parser(parser, date_begin, date_end):
     global file_contents
 
     if not file_contents:
@@ -62,7 +62,7 @@ def _get_file_name_from_description(file_description):
     return slugify(file_description)
 
 
-def scrapper(parserclasses, locale, date_begin, date_end):
+def scrapper(parserclasses, locale, date_begin, date_end, dates_per_parser):
     if not parserclasses or len(parserclasses) == 0:
         return
 
@@ -72,8 +72,15 @@ def scrapper(parserclasses, locale, date_begin, date_end):
     upper_bound_date = None
     for parsercls in parserclasses:
         parser = parsercls(locale)
+        parser_dt_begin = date_begin
+        parser_dt_end = date_end
+        if dates_per_parser and parser.name in dates_per_parser:
+            dates = dates_per_parser[parser.name]
+            parser_dt_begin = dates['begin'] if dates['begin'] else parser_dt_begin
+            parser_dt_end = dates['end'] if dates['end'] else parser_dt_end
+
         parser_categories = _scrapper_parser(
-            parser, locale, date_begin, date_end
+            parser, parser_dt_begin, parser_dt_end
         )
 
         for category in parser_categories:

@@ -23,11 +23,15 @@ def _print_success(file_name, locale):
 
 
 def main(locale, begin=None, end=None):
-    date_begin, date_end = get_date_range(begin, end, locale)
+    date_begin, date_end, dates_per_parser = get_date_range(begin, end, locale)
 
-    print('date_begin, date_end', date_begin, date_end)
+    print('Dates (begin and end): ', date_begin, date_end)
 
-    categories_csv, file_name = scrapper(parsers, locale, date_begin, date_end)
+    if dates_per_parser:
+        print('Dates (begin and end): ', dates_per_parser)
+
+    categories_csv, file_name = scrapper(
+        parsers, locale, date_begin, date_end, dates_per_parser)
 
     persist_on_csv(categories_csv, file_name)
 
