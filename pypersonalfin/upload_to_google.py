@@ -30,8 +30,11 @@ def main(args):
 
     file_name = args[1].lower()
     run = False
+    override_worksheet = False
+
     if len(args) > 1:
-        run = file_name == 'true'
+        override_worksheet = file_name == 'override'
+        run = file_name == 'true' or override_worksheet
 
     if run:
         locale = 'en_us'
@@ -52,7 +55,15 @@ def main(args):
     with open(get_output_folder_abs_path(file_name)) as reader:
         file_name = os.path.splitext(file_name)[0]
 
-        print("Adding worksheet {}".format(file_name))
+        try:
+            check_existing_worksheet = sh.worksheet(file_name)
+            if check_existing_worksheet and override_worksheet:
+                print(f'Deleting worksheet {file_name} that already exists')
+                sh.del_worksheet(check_existing_worksheet)
+        except gspread.exceptions.WorksheetNotFound:
+            pass
+
+        print(f'Adding worksheet {file_name}')
 
         sh.add_worksheet(title=file_name, rows=100, cols=1000)
 
